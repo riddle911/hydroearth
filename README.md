@@ -8,6 +8,5 @@ Cesium
 # Changes
 
 2017.8.25
--express and nodejs platform.
-
--3d earth hello world.
+1.express and nodejs platform.
+2.3d earth hello world.
