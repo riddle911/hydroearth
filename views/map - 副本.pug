@@ -1,0 +1,11 @@
+extends layout.pug
+
+block content
+    #cesiumContainer
+    script.
+      Cesium.BingMapsApi.defaultKey = 'Amiptsq_3ls2Ziz-fkj2oW2ZmN_k81YUMRE9Z2Vpurqhi3gtmcMuxJiHaO99mAeZ';
+      const viewer = new Cesium.Viewer('cesiumContainer',{
+        animation:false,//不显示左下角时间
+        timeline:false //不现实时间线
+        });
+        viewer._cesiumWidget._creditContainer.style.display="none";  //不显示cesium水印

@@ -1,0 +1,105 @@
+extends layout.pug
+
+block content
+    #cesiumContainer(style='height:100%;')
+      nav.navbar.navbar-default
+        .container-fluid
+          .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.navbar-brand(href='#') HydroEarth
+            //img(alt='HydroEarth', src='/images/plogo.png')
+            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            ul.nav.navbar-nav
+              li.active
+                a(href='#')
+                  | 下拉
+                  span.sr-only (current)
+              li
+                a(href='#') 第二个下拉
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                  | 还是下拉 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='#') 第一个功能
+                  li
+                    a(href='#') 第二个功能
+                  li
+                    a(href='#') 第三个功能
+                  li.divider(role='separator')
+                  li
+                    a(href='#') 分割开
+                  li.divider(role='separator')
+                  li
+                    a(href='#') 最后一个功能
+            //.navbar-form.navbar-left
+              //.form-group
+                //input.form-control(type='text', placeholder='请输入关键字')
+              //button.btn.btn-default(type='submit') 搜索
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href='#') 别的功能
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                  | Dropdown 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='#') Action
+                  li
+                    a(href='#') Another action
+                  li
+                    a(href='#') Something else here
+                  li.divider(role='separator')
+                  li
+                    a(href='#') Separated link
+      .logo.noselect
+        img.noselect(src='/images/plogo.png', alt='powerchina logo', title='HydroEarth')
+    script.
+      Cesium.BingMapsApi.defaultKey = 'Amiptsq_3ls2Ziz-fkj2oW2ZmN_k81YUMRE9Z2Vpurqhi3gtmcMuxJiHaO99mAeZ';
+      const ljdom = new Cesium.UrlTemplateImageryProvider({
+        url : '/ljdom/{z}/{x}/{y}.png',
+        credit : '自定义影像.'
+      });
+      const googledom = new Cesium.UrlTemplateImageryProvider({
+        url : 'http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}'
+      });
+       const imageprovider = new Cesium.ProviderViewModel({
+         name: "自定义影像",
+         iconUrl: 'images/customdom.png',
+         creationFunction: function(){ return ljdom;}       
+       });
+       const imageprovider2 = new Cesium.ProviderViewModel({
+         name: "Google影像",
+         iconUrl: 'images/gmap.png',
+         creationFunction: function(){ return googledom;}       
+       });   
+      const viewer = new Cesium.Viewer('cesiumContainer',{
+        animation:false,//不显示左下角时间
+        timeline:false,//不显示时间线
+        imageryProviderViewModels: [imageprovider2,imageprovider]
+        });
+        const scene = viewer.scene;
+          const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(
+          Cesium.Cartesian3.fromDegrees(104.0373116719,33.889722222222225, 1550));
+        const model = scene.primitives.add(Cesium.Model.fromGltf({
+            url:'modules/bridge2.gltf',
+            modelMatrix: modelMatrix,
+            scale:3.0
+        }));
+          //导航控件的属性
+          const options = {};
+          options.defaultResetView = Cesium.Rectangle.fromDegrees(73,0,134,80); 
+          Cesium.viewerCesiumNavigationMixin(viewer,options);
+        viewer.camera.flyTo({
+            destination : Cesium.Cartesian3.fromDegrees(104.0373116719,33.889722222222225,1100)  
+        });
+        
+        viewer._cesiumWidget._creditContainer.style.display="none";  //不显示cesium水印
+        
+    

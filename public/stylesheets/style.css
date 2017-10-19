@@ -1,0 +1,26 @@
+body {
+  /* padding: 50px; */
+  height: 100%;
+  margin:0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+div.logo{
+    bottom: 20px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+    pointer-eventer: none !important;
+}
+.noselect {
+    user-select: none;
+}
+img.noselect {
+    width: 200px;
+    text-align: center;
+}
